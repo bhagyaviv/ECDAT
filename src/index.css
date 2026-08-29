@@ -1,0 +1,234 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(140, 140, 140, 0.4) transparent;
+  }
+
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: rgba(140, 140, 140, 0.4);
+    border-radius: 9999px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(100, 100, 100, 0.6);
+  }
+}
+
+/* =========================================================
+   #D3D3D3 LIGHT GREY GLASSMORPHISM DESIGN SYSTEM (NO GRID)
+   ========================================================= */
+
+.glass-panel {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.72) 0%,
+    rgba(211, 211, 211, 0.65) 50%,
+    rgba(235, 235, 235, 0.55) 100%
+  );
+  backdrop-filter: blur(24px) saturate(190%);
+  -webkit-backdrop-filter: blur(24px) saturate(190%);
+  border-top: 1px solid rgba(255, 255, 255, 0.95);
+  border-left: 1px solid rgba(255, 255, 255, 0.8);
+  border-right: 1px solid rgba(175, 175, 175, 0.45);
+  border-bottom: 1px solid rgba(175, 175, 175, 0.55);
+  box-shadow: 
+    0 14px 36px -8px rgba(80, 80, 80, 0.16),
+    0 4px 12px -2px rgba(80, 80, 80, 0.1),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.95);
+}
+
+.glass-card {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.78) 0%,
+    rgba(211, 211, 211, 0.58) 50%,
+    rgba(240, 240, 240, 0.5) 100%
+  );
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border-top: 1px solid rgba(255, 255, 255, 0.9);
+  border-left: 1px solid rgba(255, 255, 255, 0.75);
+  border-right: 1px solid rgba(175, 175, 175, 0.4);
+  border-bottom: 1px solid rgba(175, 175, 175, 0.5);
+  box-shadow: 
+    0 8px 24px -4px rgba(80, 80, 80, 0.12),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.9);
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass-card:hover {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.9) 0%,
+    rgba(220, 220, 220, 0.75) 100%
+  );
+  border-color: rgba(2, 132, 199, 0.5);
+  box-shadow: 
+    0 16px 40px -6px rgba(2, 132, 199, 0.2),
+    0 0 20px 2px rgba(2, 132, 199, 0.12),
+    inset 0 1px 0 0 rgba(255, 255, 255, 1);
+  transform: translateY(-2px);
+}
+
+.glass-pill {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.8) 0%,
+    rgba(211, 211, 211, 0.65) 100%
+  );
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-top: 1px solid rgba(255, 255, 255, 0.9);
+  border-left: 1px solid rgba(255, 255, 255, 0.75);
+  border-right: 1px solid rgba(175, 175, 175, 0.45);
+  border-bottom: 1px solid rgba(175, 175, 175, 0.55);
+  box-shadow: 
+    0 2px 8px rgba(80, 80, 80, 0.08),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.9);
+}
+
+.glass-input {
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(175, 175, 175, 0.65);
+  box-shadow: inset 0 2px 4px 0 rgba(80, 80, 80, 0.06);
+}
+
+.glass-input:focus {
+  background: #ffffff;
+  border-color: rgba(2, 132, 199, 0.7);
+  box-shadow: 
+    0 0 0 2px rgba(2, 132, 199, 0.2),
+    inset 0 2px 4px 0 rgba(80, 80, 80, 0.04);
+}
+
+.glass-nav {
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.85) 0%,
+    rgba(211, 211, 211, 0.75) 100%
+  );
+  backdrop-filter: blur(28px) saturate(200%);
+  -webkit-backdrop-filter: blur(28px) saturate(200%);
+  border-bottom: 1px solid rgba(175, 175, 175, 0.5);
+  box-shadow: 0 4px 20px -2px rgba(80, 80, 80, 0.1);
+}
+
+.glass-sidebar {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.8) 0%,
+    rgba(211, 211, 211, 0.7) 100%
+  );
+  backdrop-filter: blur(28px) saturate(200%);
+  -webkit-backdrop-filter: blur(28px) saturate(200%);
+  border-right: 1px solid rgba(175, 175, 175, 0.5);
+  box-shadow: 4px 0 20px -2px rgba(80, 80, 80, 0.08);
+}
+
+/* React Flow on #D3D3D3 Glass */
+.react-flow__background {
+  background-color: transparent !important;
+}
+
+.react-flow__controls {
+  background: rgba(255, 255, 255, 0.8) !important;
+  backdrop-filter: blur(20px) saturate(180%) !important;
+  border: 1px solid rgba(175, 175, 175, 0.6) !important;
+  border-radius: 12px !important;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(80, 80, 80, 0.12) !important;
+}
+
+.react-flow__controls-button {
+  background: transparent !important;
+  border-bottom: 1px solid rgba(175, 175, 175, 0.4) !important;
+  color: #334155 !important;
+  fill: #334155 !important;
+}
+
+.react-flow__controls-button:hover {
+  background: rgba(2, 132, 199, 0.15) !important;
+  color: #0284c7 !important;
+  fill: #0284c7 !important;
+}
+
+/* Bokeh Aurora Blobs on #D3D3D3 Canvas */
+.aurora-blob-1 {
+  position: absolute;
+  width: 650px;
+  height: 650px;
+  background: radial-gradient(circle, rgba(14, 165, 233, 0.3) 0%, rgba(56, 189, 248, 0.12) 60%, transparent 80%);
+  border-radius: 9999px;
+  filter: blur(80px);
+  pointer-events: none;
+  animation: floatOrb1 18s ease-in-out infinite alternate;
+}
+
+.aurora-blob-2 {
+  position: absolute;
+  width: 700px;
+  height: 700px;
+  background: radial-gradient(circle, rgba(147, 51, 234, 0.24) 0%, rgba(168, 85, 247, 0.1) 60%, transparent 80%);
+  border-radius: 9999px;
+  filter: blur(90px);
+  pointer-events: none;
+  animation: floatOrb2 22s ease-in-out infinite alternate;
+}
+
+.aurora-blob-3 {
+  position: absolute;
+  width: 550px;
+  height: 550px;
+  background: radial-gradient(circle, rgba(244, 63, 94, 0.24) 0%, rgba(251, 146, 60, 0.1) 60%, transparent 80%);
+  border-radius: 9999px;
+  filter: blur(85px);
+  pointer-events: none;
+  animation: floatOrb3 20s ease-in-out infinite alternate;
+}
+
+.aurora-blob-4 {
+  position: absolute;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(16, 185, 129, 0.24) 0%, rgba(56, 189, 248, 0.1) 60%, transparent 80%);
+  border-radius: 9999px;
+  filter: blur(95px);
+  pointer-events: none;
+  animation: floatOrb4 24s ease-in-out infinite alternate;
+}
+
+@keyframes floatOrb1 {
+  0% { transform: translate(-10%, -10%) scale(1); }
+  50% { transform: translate(25%, 35%) scale(1.15); }
+  100% { transform: translate(5%, 15%) scale(0.95); }
+}
+
+@keyframes floatOrb2 {
+  0% { transform: translate(40%, -15%) scale(1.1); }
+  50% { transform: translate(10%, 40%) scale(0.9); }
+  100% { transform: translate(30%, 10%) scale(1.2); }
+}
+
+@keyframes floatOrb3 {
+  0% { transform: translate(20%, 60%) scale(0.9); }
+  50% { transform: translate(-15%, 20%) scale(1.2); }
+  100% { transform: translate(10%, 45%) scale(1); }
+}
+
+@keyframes floatOrb4 {
+  0% { transform: translate(-20%, 30%) scale(1.1); }
+  50% { transform: translate(30%, -10%) scale(0.95); }
+  100% { transform: translate(-10%, 15%) scale(1.15); }
+}
