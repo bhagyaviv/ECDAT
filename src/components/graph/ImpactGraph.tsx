@@ -65,10 +65,10 @@ export const ImpactGraph: React.FC = () => {
         target,
         type: 'smoothstep',
         animated: false,
-        style: { stroke: '#64748b', strokeWidth: 2 },
+        style: { stroke: '#475569', strokeWidth: 2 },
         markerEnd: {
           type: MarkerType.ArrowClosed,
-          color: '#64748b',
+          color: '#475569',
           width: 14,
           height: 14,
         },
@@ -252,27 +252,27 @@ export const ImpactGraph: React.FC = () => {
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 shrink-0">
         <div>
           <div className="flex items-center gap-2">
-            <h1 className="text-2xl font-bold text-slate-900 tracking-tight">
+            <h1 className="text-2xl font-black text-black tracking-tight">
               Cryptographic Impact Map (Signature Feature ⭐)
             </h1>
-            <span className="px-3 py-0.5 rounded-full text-xs bg-sky-100 text-sky-900 font-bold border border-sky-300">
-              Interactive #D3D3D3 Glass Canvas
+            <span className="px-3 py-0.5 rounded-full text-xs bg-sky-200 text-sky-950 font-black border border-sky-400">
+              Interactive Glass Canvas
             </span>
           </div>
-          <p className="text-xs text-slate-700 font-medium mt-1">
+          <p className="text-xs text-slate-900 font-bold mt-1">
             Click on any key on the left to see the chain of what gets compromised on the right.
           </p>
         </div>
 
         {/* 4-Step Legend */}
-        <div className="hidden lg:flex items-center gap-2 text-xs glass-pill rounded-2xl px-4 py-2 text-slate-800 shadow-sm font-semibold">
-          <span className="text-sky-700 font-bold">1. Key</span>
+        <div className="hidden lg:flex items-center gap-2 text-xs glass-pill rounded-2xl px-4 py-2 text-black shadow-sm font-black border border-slate-300">
+          <span className="text-sky-950">1. Key</span>
           <span className="text-slate-500">&rarr;</span>
-          <span className="text-blue-700 font-bold">2. Service</span>
+          <span className="text-blue-950">2. Service</span>
           <span className="text-slate-500">&rarr;</span>
-          <span className="text-purple-700 font-bold">3. App</span>
+          <span className="text-purple-950">3. App</span>
           <span className="text-slate-500">&rarr;</span>
-          <span className="text-rose-700 font-bold">4. Data Stolen</span>
+          <span className="text-rose-950">4. Data Stolen</span>
         </div>
       </div>
 
@@ -280,11 +280,11 @@ export const ImpactGraph: React.FC = () => {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 flex-1 min-h-[480px]">
         
         {/* React Flow Glass Canvas */}
-        <div className="lg:col-span-8 glass-panel rounded-3xl overflow-hidden relative shadow-sm flex flex-col">
+        <div className="lg:col-span-8 glass-panel rounded-3xl overflow-hidden relative shadow-sm border border-slate-300 flex flex-col">
           
-          <div className="absolute top-4 left-4 z-10 flex items-center gap-2 glass-pill rounded-2xl px-3.5 py-1.5 text-xs text-slate-800 shadow-sm font-semibold">
-            <Network className="w-3.5 h-3.5 text-sky-700" />
-            <span>Currently Viewing: <strong className="text-slate-950">{selectedAsset.name}</strong></span>
+          <div className="absolute top-4 left-4 z-10 flex items-center gap-2 glass-pill rounded-2xl px-3.5 py-1.5 text-xs text-black shadow-sm font-black border border-slate-300">
+            <Network className="w-3.5 h-3.5 text-sky-900 stroke-[2.5]" />
+            <span>Currently Viewing: <strong className="text-black font-black">{selectedAsset.name}</strong></span>
           </div>
 
           <div className="w-full h-full min-h-[450px] flex-1">
@@ -321,17 +321,17 @@ export const ImpactGraph: React.FC = () => {
         </div>
 
         {/* Glassmorphic Blast Radius Inspector */}
-        <div className="lg:col-span-4 glass-panel p-6 rounded-3xl shadow-sm space-y-4 flex flex-col justify-between overflow-y-auto">
+        <div className="lg:col-span-4 glass-panel p-6 rounded-3xl shadow-sm border border-slate-300 space-y-4 flex flex-col justify-between overflow-y-auto bg-white/80">
           
           <div className="space-y-4">
             
             {/* Header */}
-            <div className="border-b border-slate-300/80 pb-3 flex items-center justify-between">
+            <div className="border-b border-slate-300 pb-3 flex items-center justify-between">
               <div>
-                <span className="text-[10px] font-bold text-sky-700 uppercase tracking-wider">
+                <span className="text-[10px] font-black text-sky-950 uppercase tracking-wider">
                   Impact Diagnosis
                 </span>
-                <h2 className="text-base font-bold text-slate-900 mt-0.5">
+                <h2 className="text-base font-black text-black mt-0.5">
                   {selectedAsset.name}
                 </h2>
               </div>
@@ -339,64 +339,64 @@ export const ImpactGraph: React.FC = () => {
             </div>
 
             {/* What Breaks Card */}
-            <div className="p-4 rounded-2xl glass-card space-y-2.5">
-              <span className="text-xs font-bold text-slate-900 flex items-center gap-1.5">
-                <ShieldAlert className="w-4 h-4 text-rose-600" />
+            <div className="p-4 rounded-2xl glass-card space-y-2.5 border border-slate-300 bg-white">
+              <span className="text-xs font-black text-black flex items-center gap-1.5">
+                <ShieldAlert className="w-4 h-4 text-rose-700 stroke-[2.5]" />
                 <span>What breaks if this key is cracked?</span>
               </span>
 
-              <div className="space-y-2 text-xs text-slate-700 pt-1 font-medium">
+              <div className="space-y-2 text-xs text-black pt-1 font-bold">
                 <div>
-                  <span className="text-slate-600 block text-[11px]">1. Service that breaks:</span>
-                  <strong className="text-sky-800 font-bold">{selectedAsset.dependencies.serviceName}</strong>
+                  <span className="text-slate-800 block text-[11px]">1. Service that breaks:</span>
+                  <strong className="text-sky-950 font-black">{selectedAsset.dependencies.serviceName}</strong>
                 </div>
 
                 <div>
-                  <span className="text-slate-600 block text-[11px]">2. Customer apps affected:</span>
-                  <strong className="text-purple-800 font-bold">{selectedAsset.dependencies.applications.join(', ')}</strong>
+                  <span className="text-slate-800 block text-[11px]">2. Customer apps affected:</span>
+                  <strong className="text-purple-950 font-black">{selectedAsset.dependencies.applications.join(', ')}</strong>
                 </div>
 
                 <div>
-                  <span className="text-slate-600 block text-[11px]">3. Sensitive data leaked:</span>
-                  <strong className="text-rose-800 font-bold">{selectedAsset.dependencies.sensitiveDataTypes.join(', ')}</strong>
+                  <span className="text-slate-800 block text-[11px]">3. Sensitive data leaked:</span>
+                  <strong className="text-rose-950 font-black">{selectedAsset.dependencies.sensitiveDataTypes.join(', ')}</strong>
                 </div>
 
-                <div className="pt-2 border-t border-slate-300/80 text-slate-600 font-semibold">
-                  Estimated Financial Risk: <strong className="text-orange-700 font-bold">{selectedAsset.dependencies.annualRiskExposureUSD}</strong>
+                <div className="pt-2 border-t border-slate-300 text-black font-black">
+                  Estimated Financial Risk: <strong className="text-rose-950 font-black">{selectedAsset.dependencies.annualRiskExposureUSD}</strong>
                 </div>
               </div>
             </div>
 
             {/* The Fix Box */}
-            <div className="p-4 rounded-2xl bg-emerald-100/70 border border-emerald-300 space-y-1 text-xs">
-              <div className="flex items-center justify-between text-emerald-900 font-bold">
+            <div className="p-4 rounded-2xl bg-emerald-200/90 border border-emerald-400 space-y-1 text-xs">
+              <div className="flex items-center justify-between text-emerald-950 font-black">
                 <span>The Fix (NIST Post-Quantum Standard):</span>
               </div>
-              <p className="font-extrabold text-slate-950 mt-1">
+              <p className="font-black text-black text-[13px] mt-1">
                 {selectedAsset.pqcRecommendation.nistStandard}
               </p>
-              <p className="text-slate-700 text-[11px] mt-0.5 leading-relaxed font-medium">
+              <p className="text-emerald-950 text-[11px] mt-0.5 leading-relaxed font-bold">
                 {selectedAsset.pqcRecommendation.recommendedAction}
               </p>
             </div>
           </div>
 
           {/* Action Buttons */}
-          <div className="pt-2 border-t border-slate-300/80 space-y-2">
+          <div className="pt-2 border-t border-slate-300 space-y-2">
             <button
               onClick={() => triggerCannedPrompt('WHY_RISKY')}
-              className="w-full flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl bg-purple-100 hover:bg-purple-200 text-purple-900 text-xs font-bold border border-purple-300 transition-all cursor-pointer"
+              className="w-full flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl bg-purple-200 hover:bg-purple-300 text-black text-xs font-black border border-purple-400 transition-all cursor-pointer shadow-sm"
             >
-              <Bot className="w-4 h-4 text-purple-700" />
-              <span>Ask AI Copilot to Explain</span>
+              <Bot className="w-4 h-4 text-black stroke-[2.5]" />
+              <span className="text-black font-black">Ask AI Copilot to Explain</span>
             </button>
 
             <button
               onClick={() => setActiveView('MIGRATION')}
-              className="w-full flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl bg-sky-600 hover:bg-sky-700 text-white text-xs font-bold shadow-md shadow-sky-600/25 transition-all cursor-pointer"
+              className="w-full flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl bg-sky-400 hover:bg-sky-300 text-black text-xs font-black shadow-md shadow-sky-500/25 border border-sky-400 transition-all cursor-pointer"
             >
-              <GitFork className="w-4 h-4" />
-              <span>Get Copy-Paste Code Fix</span>
+              <GitFork className="w-4 h-4 text-black stroke-[2.5]" />
+              <span className="text-black font-black">Get Copy-Paste Code Fix</span>
             </button>
           </div>
 
