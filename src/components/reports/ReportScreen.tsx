@@ -11,7 +11,7 @@ import {
   Code2,
   Table as TableIcon
 } from 'lucide-react';
-import { RiskBadge, CategoryBadge } from '../common/Badge';
+import { RiskBadge } from '../common/Badge';
 
 export const ReportScreen: React.FC = () => {
   const { assets, stats, showToast } = useCrypto();
@@ -189,22 +189,22 @@ export const ReportScreen: React.FC = () => {
           </p>
         </div>
 
-        {/* Action Buttons */}
+        {/* Action Buttons - Pure Black Font Color */}
         <div className="flex items-center gap-2.5 flex-wrap">
           <button
             onClick={handleDownloadJson}
-            className="flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-sky-600 hover:bg-sky-700 text-white text-xs font-bold transition-all shadow-md shadow-sky-600/25 cursor-pointer active:scale-95"
+            className="flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-sky-400 hover:bg-sky-300 text-black font-extrabold text-xs transition-all shadow-md shadow-sky-500/25 border border-sky-300 cursor-pointer active:scale-95"
           >
-            <Download className="w-4 h-4" />
-            <span>Export CBOM JSON</span>
+            <Download className="w-4 h-4 text-black stroke-[2.5]" />
+            <span className="text-black font-extrabold">Export CBOM JSON</span>
           </button>
 
           <button
             onClick={handleExportPdf}
-            className="flex items-center gap-2 px-4 py-2.5 rounded-2xl glass-card text-slate-800 text-xs font-bold hover:border-sky-500 transition-all cursor-pointer"
+            className="flex items-center gap-2 px-4 py-2.5 rounded-2xl glass-card text-black font-extrabold text-xs hover:border-sky-500 transition-all cursor-pointer shadow-sm"
           >
-            <FileText className="w-4 h-4" />
-            <span>Generate Executive PDF</span>
+            <FileText className="w-4 h-4 text-black stroke-[2.5]" />
+            <span className="text-black font-extrabold">Generate Executive PDF</span>
           </button>
         </div>
       </div>
@@ -269,30 +269,30 @@ export const ReportScreen: React.FC = () => {
               </div>
             </div>
 
-            {/* View Switcher */}
-            <div className="flex items-center gap-1 bg-slate-200/80 p-1 rounded-xl border border-slate-300">
+            {/* View Switcher Buttons - Pure Black Font Color */}
+            <div className="flex items-center gap-1 bg-slate-300/80 p-1 rounded-xl border border-slate-400">
               <button
                 onClick={() => setActiveTab('RAW_JSON')}
-                className={`px-3 py-1 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer ${
+                className={`px-3 py-1 rounded-lg text-xs font-extrabold flex items-center gap-1.5 transition-all cursor-pointer ${
                   activeTab === 'RAW_JSON'
-                    ? 'bg-white text-slate-950 shadow-sm'
-                    : 'text-slate-600 hover:text-slate-900'
+                    ? 'bg-white text-black shadow-sm'
+                    : 'text-black/80 hover:text-black'
                 }`}
               >
-                <Code2 className="w-3.5 h-3.5" />
-                <span>JSON Schema</span>
+                <Code2 className="w-3.5 h-3.5 text-black stroke-[2.5]" />
+                <span className="text-black font-extrabold">JSON Schema</span>
               </button>
 
               <button
                 onClick={() => setActiveTab('VISUAL_TREE')}
-                className={`px-3 py-1 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer ${
+                className={`px-3 py-1 rounded-lg text-xs font-extrabold flex items-center gap-1.5 transition-all cursor-pointer ${
                   activeTab === 'VISUAL_TREE'
-                    ? 'bg-white text-slate-950 shadow-sm'
-                    : 'text-slate-600 hover:text-slate-900'
+                    ? 'bg-white text-black shadow-sm'
+                    : 'text-black/80 hover:text-black'
                 }`}
               >
-                <TableIcon className="w-3.5 h-3.5" />
-                <span>Component Table</span>
+                <TableIcon className="w-3.5 h-3.5 text-black stroke-[2.5]" />
+                <span className="text-black font-extrabold">Component Table</span>
               </button>
             </div>
           </div>
@@ -311,12 +311,13 @@ export const ReportScreen: React.FC = () => {
               </div>
             )}
 
+            {/* Copy Button - Pure Black Font Color */}
             <button
               onClick={handleCopy}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl glass-card hover:bg-white text-slate-800 text-xs font-bold transition-all cursor-pointer shadow-sm"
+              className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl glass-card hover:bg-white text-black font-extrabold text-xs transition-all cursor-pointer shadow-sm border border-slate-300"
             >
-              {copied ? <Check className="w-3.5 h-3.5 text-emerald-700" /> : <Copy className="w-3.5 h-3.5" />}
-              <span>{copied ? 'Copied' : 'Copy JSON'}</span>
+              {copied ? <Check className="w-3.5 h-3.5 text-emerald-700 stroke-[2.5]" /> : <Copy className="w-3.5 h-3.5 text-black stroke-[2.5]" />}
+              <span className="text-black font-extrabold">{copied ? 'Copied' : 'Copy JSON'}</span>
             </button>
           </div>
 
