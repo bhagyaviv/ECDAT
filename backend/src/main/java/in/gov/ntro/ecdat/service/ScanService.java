@@ -2,30 +2,30 @@ package in.gov.ntro.ecdat.service;
 
 import in.gov.ntro.ecdat.entity.ScanRecordEntity;
 import in.gov.ntro.ecdat.repository.ScanRecordRepository;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
 
 @Service
-@RequiredArgsConstructor
 public class ScanService {
 
     private final ScanRecordRepository scanRecordRepository;
 
+    public ScanService(ScanRecordRepository scanRecordRepository) {
+        this.scanRecordRepository = scanRecordRepository;
+    }
+
     public ScanRecordEntity launchDiscoveryScan(String targetType, String targetRef) {
-        // Simulates an AST scan run
-        ScanRecordEntity record = ScanRecordEntity.builder()
-                .scanTargetType(targetType != null ? targetType : "GIT")
-                .targetReference(targetRef != null ? targetRef : "github.com/enterprise/core-platform")
-                .filesAnalyzed(48912)
-                .dependenciesAnalyzed(1736)
-                .certificatesDiscovered(214)
-                .cryptoAssetsDiscovered(6)
-                .criticalVulnerabilities(4)
-                .status("COMPLETED")
-                .durationMs(4800)
-                .build();
+        ScanRecordEntity record = new ScanRecordEntity();
+        record.setScanTargetType(targetType != null ? targetType : "GIT");
+        record.setTargetReference(targetRef != null ? targetRef : "github.com/enterprise/core-platform");
+        record.setFilesAnalyzed(48912);
+        record.setDependenciesAnalyzed(1736);
+        record.setCertificatesDiscovered(214);
+        record.setCryptoAssetsDiscovered(6);
+        record.setCriticalVulnerabilities(4);
+        record.setStatus("COMPLETED");
+        record.setDurationMs(4800);
 
         return scanRecordRepository.save(record);
     }

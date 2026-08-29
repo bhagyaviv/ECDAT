@@ -4,7 +4,6 @@ import in.gov.ntro.ecdat.entity.IngressLogEntity;
 import in.gov.ntro.ecdat.service.TrafficService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,11 +12,14 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1/traffic")
-@RequiredArgsConstructor
 @Tag(name = "Traffic & Ingress Shield", description = "Endpoints for live cipher handshake telemetry and rate limiting")
 public class TrafficController {
 
     private final TrafficService trafficService;
+
+    public TrafficController(TrafficService trafficService) {
+        this.trafficService = trafficService;
+    }
 
     @GetMapping("/metrics")
     @Operation(summary = "Get live gateway traffic throughput and PQC shielding metrics")

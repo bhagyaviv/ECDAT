@@ -2,16 +2,18 @@ package in.gov.ntro.ecdat.service;
 
 import in.gov.ntro.ecdat.entity.CryptoAssetEntity;
 import in.gov.ntro.ecdat.repository.CryptoAssetRepository;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
 
 @Service
-@RequiredArgsConstructor
 public class CryptoAssetService {
 
     private final CryptoAssetRepository assetRepository;
+
+    public CryptoAssetService(CryptoAssetRepository assetRepository) {
+        this.assetRepository = assetRepository;
+    }
 
     public List<CryptoAssetEntity> getAllAssets() {
         return assetRepository.findAll();

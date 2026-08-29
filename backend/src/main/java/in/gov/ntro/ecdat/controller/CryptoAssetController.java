@@ -4,7 +4,6 @@ import in.gov.ntro.ecdat.entity.CryptoAssetEntity;
 import in.gov.ntro.ecdat.service.CryptoAssetService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,11 +12,14 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1/assets")
-@RequiredArgsConstructor
 @Tag(name = "Cryptographic Inventory (CBOM)", description = "APIs for querying cryptographic assets, risk scoring, Mosca's theorem and CycloneDX 1.6 CBOM")
 public class CryptoAssetController {
 
     private final CryptoAssetService assetService;
+
+    public CryptoAssetController(CryptoAssetService assetService) {
+        this.assetService = assetService;
+    }
 
     @GetMapping
     @Operation(summary = "Get all discovered cryptographic primitives")

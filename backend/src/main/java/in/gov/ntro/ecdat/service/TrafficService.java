@@ -2,16 +2,18 @@ package in.gov.ntro.ecdat.service;
 
 import in.gov.ntro.ecdat.entity.IngressLogEntity;
 import in.gov.ntro.ecdat.repository.IngressLogRepository;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
 
 @Service
-@RequiredArgsConstructor
 public class TrafficService {
 
     private final IngressLogRepository ingressLogRepository;
+
+    public TrafficService(IngressLogRepository ingressLogRepository) {
+        this.ingressLogRepository = ingressLogRepository;
+    }
 
     public List<IngressLogEntity> getRecentHandshakes() {
         return ingressLogRepository.findTop20ByOrderByCreatedAtDesc();
