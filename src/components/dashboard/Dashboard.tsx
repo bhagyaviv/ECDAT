@@ -1,37 +1,37 @@
 import React from 'react';
 import { useCrypto } from '../../context/CryptoContext';
 import { RiskBadge } from '../common/Badge';
-import { 
-  ShieldAlert, 
-  AlertTriangle, 
-  Cpu, 
-  ArrowRight, 
-  Layers, 
-  Clock, 
-  ChevronRight, 
-  Sparkles, 
-  Zap, 
-  Bot 
+import {
+  ShieldAlert,
+  AlertTriangle,
+  Cpu,
+  ArrowRight,
+  Layers,
+  Clock,
+  ChevronRight,
+  Sparkles,
+  Zap,
+  Bot
 } from 'lucide-react';
-import { 
-  ResponsiveContainer, 
-  PieChart, 
-  Pie, 
-  Cell, 
-  Tooltip, 
-  BarChart, 
-  Bar, 
-  XAxis, 
-  YAxis, 
-  CartesianGrid 
+import {
+  ResponsiveContainer,
+  PieChart,
+  Pie,
+  Cell,
+  Tooltip,
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid
 } from 'recharts';
 
 export const Dashboard: React.FC = () => {
-  const { 
-    stats, 
-    assets, 
-    navigateToAssetInGraph, 
-    setActiveView, 
+  const {
+    stats,
+    assets,
+    navigateToAssetInGraph,
+    setActiveView,
     setSelectedAssetId,
     triggerCannedPrompt,
     startScan
@@ -43,22 +43,22 @@ export const Dashboard: React.FC = () => {
 
   return (
     <div className="space-y-6">
-      
+
       {/* Frosted Hero Card */}
       <div className="rounded-3xl glass-panel p-6 sm:p-8 relative overflow-hidden shadow-sm border border-slate-300">
         <div className="absolute top-0 right-0 w-96 h-full bg-gradient-to-l from-sky-500/20 via-indigo-500/15 to-transparent pointer-events-none" />
-        
+
         <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div className="space-y-2">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-200 text-sky-950 text-xs font-black border border-sky-400">
               <Sparkles className="w-3.5 h-3.5 text-sky-950 stroke-[2.5]" />
               <span>SIH 2026 • NTRO Problem Statement SIH26164</span>
             </div>
-            
+
             <h1 className="text-2xl sm:text-3xl font-black tracking-tight text-black">
-              Enterprise Cryptographic Health Dashboard
+              Enterprise Cryptographic Discovery Analysis Dashboard
             </h1>
-            
+
             <p className="text-sm text-slate-900 max-w-2xl leading-relaxed font-bold">
               <strong>Core Message:</strong> ECDAT doesn&apos;t just find cryptography — it shows <strong className="text-black">what is at risk</strong>, <strong className="text-black">what breaks</strong>, and <strong className="text-black">what to migrate first</strong>.
             </p>
@@ -89,7 +89,7 @@ export const Dashboard: React.FC = () => {
 
       {/* 4 Frosted KPI Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        
+
         {/* 1. Quantum Health */}
         <div className="glass-card p-5 rounded-2xl space-y-3 border border-slate-300 bg-white/80">
           <div className="flex items-center justify-between text-xs text-black font-black">
@@ -107,8 +107,8 @@ export const Dashboard: React.FC = () => {
           </div>
 
           <div className="w-full bg-slate-300 rounded-full h-2.5 overflow-hidden border border-slate-400">
-            <div 
-              className="bg-rose-600 h-full rounded-full transition-all duration-1000" 
+            <div
+              className="bg-rose-600 h-full rounded-full transition-all duration-1000"
               style={{ width: `${stats.readinessScore}%` }}
             />
           </div>
@@ -193,7 +193,7 @@ export const Dashboard: React.FC = () => {
 
       {/* Visual Charts */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-        
+
         {/* Donut Chart Card */}
         <div className="lg:col-span-5 glass-panel p-6 rounded-3xl space-y-4 border border-slate-300">
           <div className="flex items-center justify-between">
@@ -224,16 +224,16 @@ export const Dashboard: React.FC = () => {
                     <Cell key={`cell-${index}`} fill={entry.fill} stroke="#ffffff" strokeWidth={2} />
                   ))}
                 </Pie>
-                <Tooltip 
-                  contentStyle={{ 
-                    backgroundColor: '#ffffff', 
-                    borderColor: '#cbd5e1', 
-                    borderRadius: '12px', 
+                <Tooltip
+                  contentStyle={{
+                    backgroundColor: '#ffffff',
+                    borderColor: '#cbd5e1',
+                    borderRadius: '12px',
                     boxShadow: '0 4px 16px rgba(0,0,0,0.12)',
                     color: '#0f172a',
                     fontSize: '12px',
                     fontWeight: 'bold'
-                  }} 
+                  }}
                 />
               </PieChart>
             </ResponsiveContainer>
@@ -278,11 +278,11 @@ export const Dashboard: React.FC = () => {
                 <CartesianGrid strokeDasharray="3 3" stroke="rgba(100, 100, 100, 0.25)" horizontal={false} />
                 <XAxis type="number" stroke="#000000" tick={{ fontSize: 11, fill: '#000000', fontWeight: 800 }} unit=" yrs" />
                 <YAxis dataKey="name" type="category" stroke="#000000" tick={{ fontSize: 11, fill: '#000000', fontWeight: 800 }} width={80} />
-                <Tooltip 
-                  contentStyle={{ 
-                    backgroundColor: '#ffffff', 
-                    borderColor: '#cbd5e1', 
-                    borderRadius: '12px', 
+                <Tooltip
+                  contentStyle={{
+                    backgroundColor: '#ffffff',
+                    borderColor: '#cbd5e1',
+                    borderRadius: '12px',
                     boxShadow: '0 4px 16px rgba(0,0,0,0.12)',
                     color: '#000000',
                     fontSize: '12px',
@@ -338,8 +338,8 @@ export const Dashboard: React.FC = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {topPriorities.map((asset, idx) => (
-            <div 
-              key={asset.id} 
+            <div
+              key={asset.id}
               className="p-5 rounded-2xl glass-card space-y-3 flex flex-col justify-between border border-slate-300 bg-white/80"
             >
               <div className="space-y-2">

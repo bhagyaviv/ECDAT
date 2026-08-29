@@ -8,7 +8,8 @@ import {
   ShieldAlert, 
   Network, 
   GitFork, 
-  FileText
+  FileText,
+  Activity
 } from 'lucide-react';
 
 interface NavItem {
@@ -21,7 +22,7 @@ interface NavItem {
 }
 
 export const Sidebar: React.FC = () => {
-  const { activeView, setActiveView, stats, isScanning } = useCrypto();
+  const { activeView, setActiveView, stats, isScanning, isSimulatingSpike } = useCrypto();
 
   const navItems: NavItem[] = [
     {
@@ -32,8 +33,8 @@ export const Sidebar: React.FC = () => {
     },
     {
       id: 'SCAN',
-      label: '2. New Scan',
-      subtext: '5-Second AST Scanner',
+      label: '2. Discovery Scan',
+      subtext: 'Multi-Source AST Scanner',
       icon: Radar,
       badge: isScanning ? 'Scanning...' : undefined,
     },
@@ -66,8 +67,15 @@ export const Sidebar: React.FC = () => {
       icon: GitFork,
     },
     {
+      id: 'TRAFFIC_CONTROL',
+      label: '7. Traffic Shield',
+      subtext: 'Ingress & Rate Limiting',
+      icon: Activity,
+      badge: isSimulatingSpike ? 'Spike Active' : 'Shield ON',
+    },
+    {
       id: 'REPORTS',
-      label: '7. CBOM & Reports',
+      label: '8. CBOM & Reports',
       subtext: 'Export Audit Dossier',
       icon: FileText,
     },
@@ -116,7 +124,9 @@ export const Sidebar: React.FC = () => {
                 <span className={`text-[10px] px-2 py-0.5 rounded-full border font-black ${
                   item.badge === 'Main Feature'
                     ? 'bg-sky-200 text-sky-950 border-sky-400'
-                    : item.badge.includes('Risk') || item.badge.includes('Scanning')
+                    : item.badge === 'Shield ON'
+                    ? 'bg-emerald-200 text-emerald-950 border-emerald-400'
+                    : item.badge.includes('Risk') || item.badge.includes('Scanning') || item.badge.includes('Spike')
                     ? 'bg-rose-200 text-rose-950 border-rose-400'
                     : 'bg-slate-200 text-slate-950 border-slate-400'
                 }`}>
@@ -133,10 +143,10 @@ export const Sidebar: React.FC = () => {
         <div className="p-3.5 rounded-2xl glass-card space-y-1 bg-white/70 border border-slate-300">
           <div className="flex items-center gap-2">
             <span className="w-2 h-2 rounded-full bg-emerald-600 animate-pulse" />
-            <span className="text-xs font-black text-black">System Ready</span>
+            <span className="text-xs font-black text-black">Traffic Shield Active</span>
           </div>
           <p className="text-[11px] text-slate-800 font-bold leading-tight">
-            6 enterprise cryptosystems loaded in memory.
+            PQC Hybrid Ingress &amp; Token-Bucket Rate Limiter enabled.
           </p>
         </div>
       </div>

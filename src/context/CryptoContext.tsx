@@ -4,7 +4,8 @@ import {
   ActiveView, 
   ScanStage, 
   ScanLog, 
-  CopilotMessage 
+  CopilotMessage,
+  IngressHandshakeLog
 } from '../types';
 import { 
   DEMO_CRYPTO_ASSETS, 
@@ -45,15 +46,87 @@ interface CryptoContextType {
   navigateToAssetInGraph: (assetId: string) => void;
   toastMessage: string | null;
   showToast: (message: string) => void;
+  
+  // Traffic Control State & Actions
+  pqcEnforced: boolean;
+  setPqcEnforced: (val: boolean) => void;
+  blockLegacyCiphers: boolean;
+  setBlockLegacyCiphers: (val: boolean) => void;
+  rateLimitingEnabled: boolean;
+  setRateLimitingEnabled: (val: boolean) => void;
+  rateLimitThreshold: number;
+  setRateLimitThreshold: (val: number) => void;
+  pqcTrafficRatio: number;
+  setPqcTrafficRatio: (val: number) => void;
+  isSimulatingSpike: boolean;
+  simulateTrafficSpike: () => void;
+  simulateLegacyAttack: () => void;
+  resetTrafficBaselines: () => void;
+  handshakeLogs: IngressHandshakeLog[];
+  currentThroughput: number;
+  blockedRate: number;
 }
 
 const CryptoContext = createContext<CryptoContextType | undefined>(undefined);
+
+const INITIAL_HANDSHAKES: IngressHandshakeLog[] = [
+  {
+    id: 'hs-1',
+    timestamp: '10:42:15.820',
+    clientIp: '192.168.1.45',
+    targetService: 'services/auth (SSO)',
+    cipherSuite: 'TLS_AES_256_GCM_SHA384 + ML-KEM-768',
+    protocol: 'PQC Hybrid (Kyber-768)',
+    action: 'ALLOWED (PQC)',
+    latencyMs: 1.2
+  },
+  {
+    id: 'hs-2',
+    timestamp: '10:42:15.412',
+    clientIp: '10.0.4.128',
+    targetService: 'services/payments (Vault)',
+    cipherSuite: 'TLS_AES_256_GCM_SHA384 + X25519',
+    protocol: 'TLS 1.3',
+    action: 'UPGRADED',
+    latencyMs: 2.1
+  },
+  {
+    id: 'hs-3',
+    timestamp: '10:42:14.980',
+    clientIp: '198.51.100.72',
+    targetService: 'infra/k8s/gateway (Edge)',
+    cipherSuite: 'TLS_RSA_WITH_AES_128_CBC_SHA',
+    protocol: 'TLS 1.2',
+    action: 'BLOCKED',
+    latencyMs: 0.4
+  },
+  {
+    id: 'hs-4',
+    timestamp: '10:42:14.210',
+    clientIp: '172.16.0.88',
+    targetService: 'services/auth (JWT Token API)',
+    cipherSuite: 'ECDHE-ECDSA-AES256-GCM-SHA384',
+    protocol: 'TLS 1.3',
+    action: 'UPGRADED',
+    latencyMs: 1.8
+  },
+  {
+    id: 'hs-5',
+    timestamp: '10:42:13.650',
+    clientIp: '203.0.113.19',
+    targetService: 'services/webhooks (Dispatcher)',
+    cipherSuite: 'TLS_RSA_WITH_AES_256_CBC_SHA',
+    protocol: 'TLS 1.2',
+    action: 'BLOCKED',
+    latencyMs: 0.3
+  }
+];
 
 export const CryptoProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [assets] = useState<CryptoAsset[]>(DEMO_CRYPTO_ASSETS);
   const [selectedAssetId, setSelectedAssetId] = useState<string>('asset-rsa-2048');
   const [activeView, setActiveView] = useState<ActiveView>('DASHBOARD');
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(true); // Default logged in for immediate hackathon judging preview
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(true);
   const [isCopilotOpen, setIsCopilotOpen] = useState<boolean>(false);
   const [filterRisk, setFilterRisk] = useState<string>('ALL');
   const [searchQuery, setSearchQuery] = useState<string>('');
@@ -68,6 +141,17 @@ export const CryptoProvider: React.FC<{ children: ReactNode }> = ({ children }) 
   // Demo Tour State
   const [isDemoTourActive, setIsDemoTourActive] = useState<boolean>(false);
   const [demoTourStep, setDemoTourStep] = useState<number>(0);
+
+  // Traffic Control State
+  const [pqcEnforced, setPqcEnforced] = useState<boolean>(true);
+  const [blockLegacyCiphers, setBlockLegacyCiphers] = useState<boolean>(true);
+  const [rateLimitingEnabled, setRateLimitingEnabled] = useState<boolean>(true);
+  const [rateLimitThreshold, setRateLimitThreshold] = useState<number>(8500);
+  const [pqcTrafficRatio, setPqcTrafficRatio] = useState<number>(88);
+  const [isSimulatingSpike, setIsSimulatingSpike] = useState<boolean>(false);
+  const [handshakeLogs, setHandshakeLogs] = useState<IngressHandshakeLog[]>(INITIAL_HANDSHAKES);
+  const [currentThroughput, setCurrentThroughput] = useState<number>(8420);
+  const [blockedRate, setBlockedRate] = useState<number>(142);
 
   const selectedAsset = useMemo(() => {
     return assets.find(a => a.id === selectedAssetId) || assets[0];
@@ -104,12 +188,10 @@ export const CryptoProvider: React.FC<{ children: ReactNode }> = ({ children }) 
     setIsScanning(true);
     setScanProgress(0);
     setScanLogs([]);
-    
-    // Reset stages
     setScanStages(prev => prev.map(s => ({ ...s, status: 'PENDING' })));
 
     let currentStageIndex = 0;
-    const totalDuration = 4800; // ~4.8 seconds total
+    const totalDuration = 4800;
     const intervalTime = 100;
     let elapsed = 0;
 
@@ -118,7 +200,6 @@ export const CryptoProvider: React.FC<{ children: ReactNode }> = ({ children }) 
       const progress = Math.min(100, Math.round((elapsed / totalDuration) * 100));
       setScanProgress(progress);
 
-      // Determine active stage
       const stageIdx = Math.min(4, Math.floor((elapsed / totalDuration) * 5));
       if (stageIdx !== currentStageIndex) {
         currentStageIndex = stageIdx;
@@ -130,7 +211,6 @@ export const CryptoProvider: React.FC<{ children: ReactNode }> = ({ children }) 
         return { ...stage, status: 'PENDING' };
       }));
 
-      // Add appropriate logs
       const logToPush = DEMO_SCAN_LOGS.find(l => !l.id.includes('pushed') && (elapsed / totalDuration) * DEMO_SCAN_LOGS.length >= DEMO_SCAN_LOGS.indexOf(l));
       if (logToPush) {
         setScanLogs(prev => {
@@ -151,6 +231,95 @@ export const CryptoProvider: React.FC<{ children: ReactNode }> = ({ children }) 
         }, 800);
       }
     }, intervalTime);
+  };
+
+  // Traffic Simulator Actions
+  const simulateTrafficSpike = () => {
+    setIsSimulatingSpike(true);
+    setCurrentThroughput(18950);
+    setBlockedRate(1420);
+    showToast('Simulating 18,000+ Req/sec DDoS Spike: Token-Bucket Rate Limiter Activated!');
+
+    const newSpikeLogs: IngressHandshakeLog[] = [
+      {
+        id: `hs-spike-${Date.now()}-1`,
+        timestamp: new Date().toLocaleTimeString(),
+        clientIp: '198.51.100.102',
+        targetService: 'services/auth (API Spammer)',
+        cipherSuite: 'TLS_AES_128_GCM_SHA256',
+        protocol: 'TLS 1.3',
+        action: 'THROTTLED',
+        latencyMs: 0.2
+      },
+      {
+        id: `hs-spike-${Date.now()}-2`,
+        timestamp: new Date().toLocaleTimeString(),
+        clientIp: '198.51.100.103',
+        targetService: 'services/auth (API Spammer)',
+        cipherSuite: 'TLS_AES_128_GCM_SHA256',
+        protocol: 'TLS 1.3',
+        action: 'THROTTLED',
+        latencyMs: 0.2
+      },
+      {
+        id: `hs-spike-${Date.now()}-3`,
+        timestamp: new Date().toLocaleTimeString(),
+        clientIp: '10.0.8.22',
+        targetService: 'services/payments (Legitimate)',
+        cipherSuite: 'TLS_AES_256_GCM_SHA384 + ML-KEM-768',
+        protocol: 'PQC Hybrid (Kyber-768)',
+        action: 'ALLOWED (PQC)',
+        latencyMs: 1.1
+      }
+    ];
+
+    setHandshakeLogs(prev => [...newSpikeLogs, ...prev.slice(0, 10)]);
+
+    setTimeout(() => {
+      setIsSimulatingSpike(false);
+      setCurrentThroughput(8420);
+      setBlockedRate(142);
+      showToast('Traffic Spike Subsided: Normal Ingress Flow Restored.');
+    }, 6000);
+  };
+
+  const simulateLegacyAttack = () => {
+    showToast('Detected 380 Insecure Legacy TLS 1.0/1.2 Handshakes: All Blocked by Cryptographic Shield.');
+    const attackLogs: IngressHandshakeLog[] = [
+      {
+        id: `hs-atk-${Date.now()}-1`,
+        timestamp: new Date().toLocaleTimeString(),
+        clientIp: '45.33.32.156',
+        targetService: 'services/auth',
+        cipherSuite: 'SSL_RSA_WITH_3DES_EDE_CBC_SHA',
+        protocol: 'TLS 1.2',
+        action: 'BLOCKED',
+        latencyMs: 0.1
+      },
+      {
+        id: `hs-atk-${Date.now()}-2`,
+        timestamp: new Date().toLocaleTimeString(),
+        clientIp: '45.33.32.157',
+        targetService: 'infra/k8s/gateway',
+        cipherSuite: 'TLS_RSA_WITH_RC4_128_SHA',
+        protocol: 'TLS 1.2',
+        action: 'BLOCKED',
+        latencyMs: 0.1
+      }
+    ];
+    setHandshakeLogs(prev => [...attackLogs, ...prev.slice(0, 10)]);
+  };
+
+  const resetTrafficBaselines = () => {
+    setPqcEnforced(true);
+    setBlockLegacyCiphers(true);
+    setRateLimitingEnabled(true);
+    setRateLimitThreshold(8500);
+    setPqcTrafficRatio(88);
+    setCurrentThroughput(8420);
+    setBlockedRate(142);
+    setHandshakeLogs(INITIAL_HANDSHAKES);
+    showToast('Traffic Control & Ingress Policies reset to standard defense baseline.');
   };
 
   // AI Copilot template interpolations
@@ -359,6 +528,23 @@ export const CryptoProvider: React.FC<{ children: ReactNode }> = ({ children }) 
         navigateToAssetInGraph,
         toastMessage,
         showToast,
+        pqcEnforced,
+        setPqcEnforced,
+        blockLegacyCiphers,
+        setBlockLegacyCiphers,
+        rateLimitingEnabled,
+        setRateLimitingEnabled,
+        rateLimitThreshold,
+        setRateLimitThreshold,
+        pqcTrafficRatio,
+        setPqcTrafficRatio,
+        isSimulatingSpike,
+        simulateTrafficSpike,
+        simulateLegacyAttack,
+        resetTrafficBaselines,
+        handshakeLogs,
+        currentThroughput,
+        blockedRate
       }}
     >
       {children}

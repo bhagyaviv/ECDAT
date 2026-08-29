@@ -96,6 +96,17 @@ export interface CopilotMessage {
   };
 }
 
+export interface IngressHandshakeLog {
+  id: string;
+  timestamp: string;
+  clientIp: string;
+  targetService: string;
+  cipherSuite: string;
+  protocol: 'TLS 1.3' | 'TLS 1.2' | 'PQC Hybrid (Kyber-768)' | 'HTTP (Unencrypted)';
+  action: 'ALLOWED (PQC)' | 'UPGRADED' | 'THROTTLED' | 'BLOCKED';
+  latencyMs: number;
+}
+
 export type ActiveView = 
   | 'DASHBOARD'
   | 'SCAN'
@@ -103,4 +114,5 @@ export type ActiveView =
   | 'QUANTUM_RISK'
   | 'IMPACT_GRAPH'
   | 'MIGRATION'
+  | 'TRAFFIC_CONTROL'
   | 'REPORTS';

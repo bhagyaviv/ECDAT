@@ -9,6 +9,7 @@ import { CryptoAssetsTable } from './components/assets/CryptoAssetsTable';
 import { QuantumRiskView } from './components/risk/QuantumRiskView';
 import { ImpactGraph } from './components/graph/ImpactGraph';
 import { MigrationRoadmap } from './components/migration/MigrationRoadmap';
+import { TrafficControlView } from './components/traffic/TrafficControlView';
 import { ReportScreen } from './components/reports/ReportScreen';
 import { AICopilotPanel } from './components/copilot/AICopilotPanel';
 import { DemoTourOverlay } from './components/demo/DemoTourOverlay';
@@ -51,6 +52,7 @@ const AppContent: React.FC = () => {
             {activeView === 'QUANTUM_RISK' && <QuantumRiskView />}
             {activeView === 'IMPACT_GRAPH' && <ImpactGraph />}
             {activeView === 'MIGRATION' && <MigrationRoadmap />}
+            {activeView === 'TRAFFIC_CONTROL' && <TrafficControlView />}
             {activeView === 'REPORTS' && <ReportScreen />}
           </div>
         </main>
